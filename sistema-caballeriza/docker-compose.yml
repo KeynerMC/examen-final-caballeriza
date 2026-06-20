@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:15
+    container_name: caballeriza-db
+    environment:
+      POSTGRES_DB: caballeriza
+      POSTGRES_USER: caballeriza_user
+      POSTGRES_PASSWORD: caballeriza2026
+    ports:
+      - "5432:5432"
+    volumes:
+      - caballeriza_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  caballeriza_data:

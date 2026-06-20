@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #fdf8f0;
+  color: #321e0f;
+}
+
+h1, h2, h3 {
+  font-family: 'Playfair Display', serif;
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-tierra-500 hover:bg-tierra-600 text-crema-100 font-medium px-4 py-2 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md;
+  }
+  .btn-secondary {
+    @apply bg-salvia-500 hover:bg-salvia-600 text-crema-100 font-medium px-4 py-2 rounded-lg transition-all duration-200;
+  }
+  .btn-outline {
+    @apply border border-tierra-400 text-tierra-600 hover:bg-tierra-50 font-medium px-4 py-2 rounded-lg transition-all duration-200;
+  }
+  .card {
+    @apply bg-white rounded-xl shadow-sm border border-crema-200 p-6;
+  }
+  .input {
+    @apply w-full border border-crema-300 rounded-lg px-3 py-2 text-tierra-800 bg-crema-50 focus:outline-none focus:ring-2 focus:ring-tierra-300 focus:border-tierra-400 transition-all;
+  }
+  .label {
+    @apply block text-sm font-medium text-tierra-700 mb-1;
+  }
+  .badge-green {
+    @apply bg-salvia-100 text-salvia-700 text-xs font-medium px-2 py-1 rounded-full;
+  }
+  .badge-amber {
+    @apply bg-crema-200 text-tierra-700 text-xs font-medium px-2 py-1 rounded-full;
+  }
+  .badge-red {
+    @apply bg-red-100 text-red-700 text-xs font-medium px-2 py-1 rounded-full;
+  }
+}

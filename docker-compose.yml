@@ -1,0 +1,48 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:15
+    container_name: caballeriza-db
+    environment:
+      POSTGRES_DB: caballeriza
+      POSTGRES_USER: caballeriza_user
+      POSTGRES_PASSWORD: caballeriza2026
+    ports:
+      - "5432:5432"
+    volumes:
+      - caballeriza_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U caballeriza_user -d caballeriza"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  backend:
+    build: ./sistema-caballeriza
+    container_name: caballeriza-backend
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/caballeriza
+      SPRING_DATASOURCE_USERNAME: caballeriza_user
+      SPRING_DATASOURCE_PASSWORD: caballeriza2026
+    ports:
+      - "8080:8080"
+    volumes:
+      - caballeriza_uploads:/app/uploads
+    restart: unless-stopped
+
+  frontend:
+    build: ./caballeriza-frontend
+    container_name: caballeriza-frontend
+    depends_on:
+      - backend
+    ports:
+      - "5173:80"
+    restart: unless-stopped
+
+volumes:
+  caballeriza_data:
+  caballeriza_uploads:
