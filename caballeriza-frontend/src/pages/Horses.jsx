@@ -61,7 +61,7 @@ export default function Horses() {
               <div key={h.id} className="card flex flex-col">
                 <div className="w-full h-36 bg-crema-100 rounded-lg overflow-hidden mb-3 flex items-center justify-center">
                   {h.fotoUrl ? (
-                    <img src={`http://localhost:8080${h.fotoUrl}`} alt={h.nombre} className="object-cover w-full h-full" />
+                    <img src={h.fotoUrl} alt={h.nombre} className="object-cover w-full h-full" />
                   ) : (
                     <Camera className="w-8 h-8 text-tierra-300" />
                   )}

@@ -34,6 +34,7 @@ public class User implements UserDetails {
     private LocalDateTime createdAt;
 
     @Column(name = "active")
+    @Builder.Default
     private boolean active = true;
 
     @PrePersist

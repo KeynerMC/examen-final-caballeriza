@@ -3,6 +3,7 @@ package com.caballeriza.sistema.service;
 import com.caballeriza.sistema.model.Horse;
 import com.caballeriza.sistema.repository.HorseRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,6 +17,9 @@ import java.util.UUID;
 public class HorseService {
 
     private final HorseRepository horseRepository;
+
+    @Value("${app.upload.dir}")
+    private String uploadBaseDir;
 
     public Page<Horse> findAll(Pageable pageable) {
         return horseRepository.findByActiveTrue(pageable);
@@ -50,10 +54,10 @@ public class HorseService {
     }
 
     public String savePhoto(MultipartFile file) throws IOException {
-        String uploadDir = "uploads/horses/";
-        Files.createDirectories(Paths.get(uploadDir));
+        Path horsesDir = Paths.get(uploadBaseDir, "horses");
+        Files.createDirectories(horsesDir);
         String filename = UUID.randomUUID() + "_" + file.getOriginalFilename();
-        Path filePath = Paths.get(uploadDir + filename);
+        Path filePath = horsesDir.resolve(filename);
         Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
         return "/uploads/horses/" + filename;
     }
