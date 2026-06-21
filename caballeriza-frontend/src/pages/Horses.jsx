@@ -6,6 +6,7 @@ import { horseApi } from '../api/services'
 import { useAuth } from '../context/AuthContext'
 import Modal from '../components/Modal'
 import { Spinner, EmptyState, PageHeader, Badge } from '../components/UIBits'
+import { Establo } from '../fondos'
 
 const sexoLabel = { MACHO: 'Macho', HEMBRA: 'Hembra' }
 
@@ -20,7 +21,7 @@ export default function Horses() {
   const load = async (p = page) => {
     setLoading(true)
     try {
-      const res = await horseApi.getAll({ page: p, size: 8 })
+      const res = await horseApi.getAll({ page: p, size: 12 })
       setData(res.data.data ?? { content: [], totalPages: 1, number: 0 })
     } catch (e) {
       toast.error('No se pudieron cargar los caballos')
@@ -54,16 +55,20 @@ export default function Horses() {
         )}
       />
 
-      {loading ? <Spinner /> : data.content.length === 0 ? <EmptyState label="Todavía no hay caballos registrados." /> : (
-        <>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+      <Establo>
+        {loading ? (
+          <Spinner />
+        ) : data.content.length === 0 ? (
+          <EmptyState label="Todavía no hay caballos registrados." />
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-4">
             {data.content.map((h) => (
               <div key={h.id} className="card flex flex-col">
-                <div className="w-full h-36 bg-crema-100 rounded-lg overflow-hidden mb-3 flex items-center justify-center">
+                <div className="w-full h-56 bg-crema-100 rounded-lg overflow-hidden mb-3 flex items-center justify-center">
                   {h.fotoUrl ? (
                     <img src={h.fotoUrl} alt={h.nombre} className="object-cover w-full h-full" />
                   ) : (
-                    <Camera className="w-8 h-8 text-tierra-300" />
+                    <Camera className="w-12 h-12 text-tierra-300" />
                   )}
                 </div>
                 <h3 className="font-serif text-lg font-semibold text-tierra-800">{h.nombre}</h3>
@@ -91,17 +96,19 @@ export default function Horses() {
               </div>
             ))}
           </div>
+        )}
+      </Establo>
 
-          <div className="flex items-center justify-center gap-3 mt-6">
-            <button disabled={page === 0} onClick={() => setPage(p => p - 1)} className="btn-outline px-3 py-1.5 disabled:opacity-40">
-              <ChevronLeft className="w-4 h-4" />
-            </button>
-            <span className="text-sm text-tierra-500">Página {data.number + 1} de {Math.max(data.totalPages, 1)}</span>
-            <button disabled={page + 1 >= data.totalPages} onClick={() => setPage(p => p + 1)} className="btn-outline px-3 py-1.5 disabled:opacity-40">
-              <ChevronRight className="w-4 h-4" />
-            </button>
-          </div>
-        </>
+      {!loading && data.content.length > 0 && (
+        <div className="flex items-center justify-center gap-3 mt-6">
+          <button disabled={page === 0} onClick={() => setPage(p => p - 1)} className="btn-outline px-3 py-1.5 disabled:opacity-40">
+            <ChevronLeft className="w-4 h-4" />
+          </button>
+          <span className="text-sm text-tierra-500">Página {data.number + 1} de {Math.max(data.totalPages, 1)}</span>
+          <button disabled={page + 1 >= data.totalPages} onClick={() => setPage(p => p + 1)} className="btn-outline px-3 py-1.5 disabled:opacity-40">
+            <ChevronRight className="w-4 h-4" />
+          </button>
+        </div>
       )}
 
       {(modal === 'create' || modal === 'edit') && (
@@ -155,11 +162,36 @@ function HorseFormModal({ horse, onClose, onSaved }) {
         <div className="grid grid-cols-2 gap-3">
           <div>
             <label className="label">Edad (años)</label>
-            <input type="number" min="0" className="input" {...register('edad', { required: true, min: 0 })} />
+            <input
+              type="number"
+              min="0"
+              max="40"
+              className="input"
+              {...register('edad', {
+                required: 'Obligatorio',
+                valueAsNumber: true,
+                min: { value: 0, message: 'La edad no puede ser negativa' },
+                max: { value: 40, message: 'La edad ingresada no es realista (máximo 40 años)' },
+              })}
+            />
+            {errors.edad && <p className="text-red-500 text-xs mt-1">{errors.edad.message}</p>}
           </div>
           <div>
             <label className="label">Peso (kg)</label>
-            <input type="number" min="0" step="0.1" className="input" {...register('peso', { required: true, min: 0 })} />
+            <input
+              type="number"
+              min="20"
+              max="900"
+              step="0.1"
+              className="input"
+              {...register('peso', {
+                required: 'Obligatorio',
+                valueAsNumber: true,
+                min: { value: 20, message: 'El peso es demasiado bajo para un caballo' },
+                max: { value: 900, message: 'El peso ingresado no es realista (máximo 900 kg)' },
+              })}
+            />
+            {errors.peso && <p className="text-red-500 text-xs mt-1">{errors.peso.message}</p>}
           </div>
         </div>
         <div className="grid grid-cols-2 gap-3">

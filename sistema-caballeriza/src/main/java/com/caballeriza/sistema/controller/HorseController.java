@@ -3,6 +3,7 @@ package com.caballeriza.sistema.controller;
 import com.caballeriza.sistema.dto.ApiResponse;
 import com.caballeriza.sistema.model.*;
 import com.caballeriza.sistema.service.*;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.http.*;
@@ -36,14 +37,14 @@ public class HorseController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'VETERINARIO')")
-    public ResponseEntity<ApiResponse<Horse>> create(@RequestBody Horse horse) {
+    public ResponseEntity<ApiResponse<Horse>> create(@Valid @RequestBody Horse horse) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ApiResponse.ok("Caballo creado", horseService.save(horse)));
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMIN', 'VETERINARIO')")
-    public ResponseEntity<ApiResponse<Horse>> update(@PathVariable Long id, @RequestBody Horse horse) {
+    public ResponseEntity<ApiResponse<Horse>> update(@PathVariable Long id, @Valid @RequestBody Horse horse) {
         return ResponseEntity.ok(ApiResponse.ok("Caballo actualizado", horseService.update(id, horse)));
     }
 

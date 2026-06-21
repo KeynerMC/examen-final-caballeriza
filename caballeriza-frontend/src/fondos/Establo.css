@@ -1,0 +1,69 @@
+/* Fondo decorativo de establo: techo, pared con pilares y piso.
+   Pensado para envolver contenido de altura variable (no asume una
+   cantidad fija de "compartimentos"), usando la paleta tierra/crema
+   de la app en vez de los colores literales del boceto original. */
+
+.establo {
+  border-radius: 1rem;
+  overflow: hidden;
+  border: 1px solid #e8c99a;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.establo-techo {
+  height: 3rem;
+  background-color: #e8c99a;
+  background-image: repeating-linear-gradient(
+    90deg,
+    rgba(139, 69, 19, 0.12) 0,
+    rgba(139, 69, 19, 0.12) 1px,
+    transparent 1px,
+    transparent 20px
+  );
+  border-bottom: 3px solid #6b4423;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 10%;
+}
+
+.establo-techo .fixture {
+  width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 50%;
+  background-color: #4e2f18;
+}
+
+.establo-cuerpo {
+  display: flex;
+  background-color: #8b6030;
+}
+
+.establo-pilar {
+  flex: 0 0 1.25rem;
+  background-color: #b8863f;
+  border-left: 2px solid #6b4423;
+  border-right: 2px solid #6b4423;
+}
+
+.establo-contenido {
+  flex: 1;
+  min-width: 0;
+  padding: 1.25rem;
+  background-image: repeating-linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.06) 0,
+    rgba(0, 0, 0, 0.06) 2px,
+    transparent 2px,
+    transparent 14%
+  );
+}
+
+.establo-piso {
+  height: 1.75rem;
+  background-color: #4e2f18;
+  background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.25) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(0, 0, 0, 0.25) 1px, transparent 1px);
+  background-size: 30px 14px;
+  border-top: 2px solid #321e0f;
+}
