@@ -33,7 +33,7 @@ class HorseServiceTest {
     @Test
     void save_lanzaExcepcionSiElIdentificadorYaExiste() {
         Horse horse = Horse.builder().nombre("Relámpago").identificador("CAB-001").build();
-        when(horseRepository.existsByIdentificador("CAB-001")).thenReturn(true);
+        when(horseRepository.existsByIdentificadorAndActiveTrue("CAB-001")).thenReturn(true);
 
         assertThrows(RuntimeException.class, () -> horseService.save(horse));
         verify(horseRepository, never()).save(any());
@@ -42,7 +42,7 @@ class HorseServiceTest {
     @Test
     void save_guardaCuandoElIdentificadorEsNuevo() {
         Horse horse = Horse.builder().nombre("Relámpago").identificador("CAB-002").build();
-        when(horseRepository.existsByIdentificador("CAB-002")).thenReturn(false);
+        when(horseRepository.existsByIdentificadorAndActiveTrue("CAB-002")).thenReturn(false);
         when(horseRepository.save(horse)).thenReturn(horse);
 
         Horse result = horseService.save(horse);

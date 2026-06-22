@@ -31,7 +31,7 @@ public class HorseService {
     }
 
     public Horse save(Horse horse) {
-        if (horse.getId() == null && horseRepository.existsByIdentificador(horse.getIdentificador())) {
+        if (horse.getId() == null && horseRepository.existsByIdentificadorAndActiveTrue(horse.getIdentificador())) {
             throw new RuntimeException("Ya existe un caballo con ese identificador");
         }
         return horseRepository.save(horse);

@@ -9,5 +9,5 @@ import java.util.List;
 public interface HorseRepository extends JpaRepository<Horse, Long> {
     Page<Horse> findByActiveTrue(Pageable pageable);
     List<Horse> findByActiveTrue();
-    boolean existsByIdentificador(String identificador);
+    boolean existsByIdentificadorAndActiveTrue(String identificador);
 }

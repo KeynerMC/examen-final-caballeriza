@@ -20,7 +20,7 @@ public class Horse {
     private String nombre;
 
     @NotBlank(message = "El identificador es obligatorio")
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private String identificador;
 
     @NotNull(message = "La edad es obligatoria")

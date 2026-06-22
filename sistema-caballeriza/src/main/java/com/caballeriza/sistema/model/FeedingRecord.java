@@ -1,5 +1,6 @@
 package com.caballeriza.sistema.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import java.math.BigDecimal;
@@ -13,6 +14,7 @@ public class FeedingRecord {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "feeding_plan_id", nullable = false)
     private FeedingPlan feedingPlan;
