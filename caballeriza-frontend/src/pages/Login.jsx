@@ -2,9 +2,10 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
-import { PawPrint, Mail, Lock } from 'lucide-react'
+import { Mail, Lock } from 'lucide-react'
 import { authApi } from '../api/services'
 import { useAuth } from '../context/AuthContext'
+import { CaballoCorriendo } from '../animacion'
 
 export default function Login() {
   const { register, handleSubmit, formState: { errors } } = useForm()
@@ -30,8 +31,8 @@ export default function Login() {
     <div className="min-h-screen flex items-center justify-center bg-tierra-50 px-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-tierra-600 text-crema-100 mb-3">
-            <PawPrint className="w-8 h-8" />
+          <div className="w-64 h-44 mx-auto rounded-2xl overflow-hidden shadow-md mb-3">
+            <CaballoCorriendo />
           </div>
           <h1 className="font-serif text-3xl font-bold text-tierra-800">Caballeriza</h1>
           <p className="text-tierra-400 text-sm mt-1">Inicia sesión para continuar</p>
