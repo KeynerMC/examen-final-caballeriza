@@ -59,14 +59,14 @@ export default function Dashboard() {
   if (loading) return <Spinner />
 
   const cards = [
-    { label: 'Caballos registrados', value: stats?.horses ?? 0, icon: PawPrint, color: 'bg-tierra-500' },
-    { label: 'Personal activo', value: stats?.employees ?? 0, icon: Users, color: 'bg-salvia-500' },
-    { label: 'Insumos con stock bajo', value: stats?.stockBajo ?? 0, icon: Package, color: 'bg-amber-500' },
-    { label: 'Notificaciones sin leer', value: stats?.unread ?? 0, icon: Bell, color: 'bg-red-400' },
+    { label: 'Caballos registrados', value: stats?.horses ?? 0, icon: PawPrint, from: 'from-tierra-400', to: 'to-tierra-600' },
+    { label: 'Personal activo', value: stats?.employees ?? 0, icon: Users, from: 'from-salvia-400', to: 'to-salvia-600' },
+    { label: 'Insumos con stock bajo', value: stats?.stockBajo ?? 0, icon: Package, from: 'from-amber-400', to: 'to-amber-600' },
+    { label: 'Notificaciones sin leer', value: stats?.unread ?? 0, icon: Bell, from: 'from-red-400', to: 'to-red-600' },
   ]
 
   return (
-    <div>
+    <div className="page-enter">
       <div className="mb-6">
         <h1 className="font-serif text-2xl md:text-3xl font-bold text-tierra-800">
           Hola, {user?.nombre?.split(' ')[0]} 👋
@@ -75,9 +75,9 @@ export default function Dashboard() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        {cards.map(({ label, value, icon: Icon, color }) => (
-          <div key={label} className="card flex items-center gap-4">
-            <div className={`${color} text-white rounded-xl p-3`}>
+        {cards.map(({ label, value, icon: Icon, from, to }) => (
+          <div key={label} className="card card-hover flex items-center gap-4">
+            <div className={`bg-gradient-to-br ${from} ${to} text-white rounded-xl p-3 shadow-sm`}>
               <Icon className="w-6 h-6" />
             </div>
             <div>
@@ -117,8 +117,8 @@ export default function Dashboard() {
 
 function ChartCard({ title, children }) {
   return (
-    <div className="card">
-      <h3 className="font-serif text-base font-semibold text-tierra-700 mb-3">{title}</h3>
+    <div className="card card-hover">
+      <h3 className="font-serif text-base font-semibold text-tierra-700 mb-3 pb-3 border-b border-crema-200">{title}</h3>
       <ResponsiveContainer width="100%" height={260}>
         {children}
       </ResponsiveContainer>
@@ -139,15 +139,15 @@ function AdminStatsPanel({ stats }) {
   return (
     <div>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-        <div className="card">
+        <div className="card card-hover">
           <p className="text-2xl font-bold text-tierra-800">{stats.totalClientes}</p>
           <p className="text-xs text-tierra-400">Clientes registrados</p>
         </div>
-        <div className="card">
+        <div className="card card-hover">
           <p className="text-2xl font-bold text-tierra-800">{stats.citasPendientes}</p>
           <p className="text-xs text-tierra-400">Citas pendientes</p>
         </div>
-        <div className="card">
+        <div className="card card-hover">
           <p className="text-2xl font-bold text-tierra-800">{stats.citasHoy}</p>
           <p className="text-xs text-tierra-400">Citas para hoy</p>
         </div>

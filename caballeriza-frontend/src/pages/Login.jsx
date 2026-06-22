@@ -28,17 +28,22 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-tierra-50 px-4">
-      <div className="w-full max-w-md">
+    <div className="min-h-screen flex items-center justify-center bg-tierra-50 px-4 relative overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-br from-crema-100 via-tierra-50 to-salvia-50 opacity-70" />
+      <div className="absolute -top-24 -left-24 w-72 h-72 rounded-full bg-tierra-200/40 blur-3xl" />
+      <div className="absolute -bottom-24 -right-24 w-72 h-72 rounded-full bg-salvia-200/40 blur-3xl" />
+
+      <div className="w-full max-w-md relative page-enter">
         <div className="text-center mb-8">
-          <div className="w-64 h-44 mx-auto rounded-2xl overflow-hidden shadow-md mb-3">
+          <div className="w-64 h-44 mx-auto rounded-2xl overflow-hidden shadow-lg ring-1 ring-tierra-200 mb-4">
             <CaballoCorriendo />
           </div>
-          <h1 className="font-serif text-3xl font-bold text-tierra-800">Caballeriza</h1>
+          <h1 className="font-serif text-3xl font-bold text-tierra-800 tracking-tight">Caballeriza</h1>
           <p className="text-tierra-400 text-sm mt-1">Inicia sesión para continuar</p>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="card space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="card shadow-xl space-y-4 relative overflow-hidden">
+          <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-tierra-400 via-salvia-400 to-tierra-400" />
           <div>
             <label className="label">Correo electrónico</label>
             <div className="relative">

@@ -62,8 +62,8 @@ export default function Notifications() {
           {visibles.map((n) => {
             const Icon = iconMap[n.tipo] || Bell
             return (
-              <div key={n.id} className={`card flex items-start gap-3 ${!n.leida ? 'border-tierra-300 bg-crema-50' : ''}`}>
-                <div className={`rounded-lg p-2 ${!n.leida ? 'bg-tierra-500 text-white' : 'bg-crema-200 text-tierra-400'}`}>
+              <div key={n.id} className={`card card-hover flex items-start gap-3 ${!n.leida ? 'border-tierra-300 bg-crema-50 border-l-4 border-l-tierra-500' : ''}`}>
+                <div className={`rounded-lg p-2 shrink-0 ${!n.leida ? 'bg-gradient-to-br from-tierra-400 to-tierra-600 text-white shadow-sm' : 'bg-crema-200 text-tierra-400'}`}>
                   <Icon className="w-4 h-4" />
                 </div>
                 <div className="flex-1">

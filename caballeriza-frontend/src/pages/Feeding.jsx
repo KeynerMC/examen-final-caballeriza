@@ -93,7 +93,7 @@ function PlanCard({ plan, canManage, onDelete, onAddRecord }) {
   }
 
   return (
-    <div className="card">
+    <div className="card card-hover">
       <div className="flex items-start justify-between gap-3">
         <div>
           <h3 className="font-serif text-lg font-semibold text-tierra-800 flex items-center gap-2">

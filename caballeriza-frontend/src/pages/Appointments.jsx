@@ -80,7 +80,7 @@ export default function Appointments() {
         <>
           <div className="space-y-3">
             {data.content.map((a) => (
-              <div key={a.id} className="card flex flex-wrap items-center justify-between gap-3">
+              <div key={a.id} className="card card-hover flex flex-wrap items-center justify-between gap-3">
                 <div>
                   <div className="flex items-center gap-2 mb-1">
                     <Badge tone="amber">{tipoLabel[a.tipo] || a.tipo}</Badge>

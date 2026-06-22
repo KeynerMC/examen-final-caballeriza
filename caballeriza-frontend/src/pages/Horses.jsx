@@ -63,7 +63,7 @@ export default function Horses() {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-4">
             {data.content.map((h) => (
-              <div key={h.id} className="card flex flex-col">
+              <div key={h.id} className="card card-hover flex flex-col">
                 <div className="w-full h-56 bg-crema-100 rounded-lg overflow-hidden mb-3 flex items-center justify-center">
                   {h.fotoUrl ? (
                     <img src={h.fotoUrl} alt={h.nombre} className="object-cover w-full h-full" />

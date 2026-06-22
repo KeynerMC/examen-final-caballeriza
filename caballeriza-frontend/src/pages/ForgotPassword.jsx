@@ -23,20 +23,25 @@ export default function ForgotPassword() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-tierra-50 px-4">
-      <div className="w-full max-w-md">
+    <div className="min-h-screen flex items-center justify-center bg-tierra-50 px-4 relative overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-br from-crema-100 via-tierra-50 to-salvia-50 opacity-70" />
+      <div className="absolute -top-24 -left-24 w-72 h-72 rounded-full bg-tierra-200/40 blur-3xl" />
+      <div className="absolute -bottom-24 -right-24 w-72 h-72 rounded-full bg-salvia-200/40 blur-3xl" />
+
+      <div className="w-full max-w-md relative page-enter">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-tierra-600 text-crema-100 mb-3">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-tierra-500 to-tierra-700 text-crema-100 shadow-lg mb-3">
             <PawPrint className="w-8 h-8" />
           </div>
-          <h1 className="font-serif text-3xl font-bold text-tierra-800">Recuperar contraseña</h1>
+          <h1 className="font-serif text-3xl font-bold text-tierra-800 tracking-tight">Recuperar contraseña</h1>
           <p className="text-tierra-400 text-sm mt-1">
             Te enviaremos un enlace a tu correo para crear una nueva contraseña
           </p>
         </div>
 
         {sent ? (
-          <div className="card text-center space-y-3">
+          <div className="card shadow-xl text-center space-y-3 relative overflow-hidden">
+            <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-salvia-400 via-tierra-400 to-salvia-400" />
             <p className="text-tierra-700 font-medium">Revisá tu correo</p>
             <p className="text-sm text-tierra-500">
               Si el correo está registrado, te enviamos un enlace para restablecer tu contraseña.
@@ -48,7 +53,8 @@ export default function ForgotPassword() {
           </div>
         ) : (
           <>
-            <form onSubmit={handleSubmit(onSubmit)} className="card space-y-4">
+            <form onSubmit={handleSubmit(onSubmit)} className="card shadow-xl space-y-4 relative overflow-hidden">
+              <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-tierra-400 via-salvia-400 to-tierra-400" />
               <div>
                 <label className="label">Correo electrónico</label>
                 <div className="relative">
