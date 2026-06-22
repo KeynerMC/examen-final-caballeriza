@@ -67,6 +67,46 @@ Con el backend corriendo, Swagger UI queda disponible en:
 http://localhost:8080/swagger-ui.html
 ```
 
+## Migración a aplicación móvil
+
+El backend es una API REST sin estado (JWT, sin sesiones de servidor) y el
+frontend web nunca llama directamente a la base de datos: toda la lógica de
+negocio vive en el backend y se consume por HTTP/JSON. Esto permite construir
+una app móvil (por ejemplo con **React Native** o **Expo**) reutilizando el
+mismo backend sin cambios, siguiendo estos puntos:
+
+- **Misma API, mismos endpoints.** Todos los endpoints documentados en Swagger
+  (`/swagger-ui.html`) son los que consumiría la app móvil; no hay endpoints
+  exclusivos para web.
+- **Capa de API reutilizable.** `caballeriza-frontend/src/api/services.js` ya
+  separa cada recurso (`horseApi`, `employeeApi`, `appointmentApi`,
+  `feedingApi`, `inventoryApi`, `notificationApi`, `authApi`) en funciones que
+  llaman a `axios`. En React Native se puede copiar ese archivo casi sin
+  cambios: solo se reemplaza `localStorage` (web) por `AsyncStorage` (móvil)
+  para guardar el JWT, y se ajusta el `baseURL` de axios para apuntar a la URL
+  pública del backend en vez de usar el proxy de Vite.
+- **Autenticación portable.** El login devuelve un JWT (`AuthResponse.token`)
+  que se manda en el header `Authorization: Bearer <token>` en cada petición
+  ([`axios.js`](caballeriza-frontend/src/api/axios.js)). Ese mismo mecanismo
+  funciona igual desde un cliente móvil.
+- **Roles y permisos sin cambios.** Los 4 roles (`ADMIN`, `CUIDADOR`,
+  `VETERINARIO`, `CLIENTE`) y las reglas `@PreAuthorize` están en el backend,
+  así que la app móvil hereda los mismos permisos sin reimplementar nada de
+  seguridad.
+- **Archivos estáticos accesibles.** Las fotos de los caballos se sirven en
+  `/uploads/**` con URL absoluta, consumibles igual desde una `<Image>` de
+  React Native que desde un `<img>` web.
+- **CORS no es un bloqueo para móvil.** La restricción de orígenes en
+  `SecurityConfig` solo aplica a navegadores; una app nativa (React
+  Native/Expo) no la sufre porque no es una petición same-origin/cross-origin
+  de navegador. Si se publica una versión web adicional, basta agregar su
+  dominio a la lista de `allowedOrigins`.
+- **UI ya pensada en componentes pequeños.** Las páginas del frontend están
+  separadas en componentes simples (`Modal`, `Badge`, `PageHeader`, etc.) y la
+  lógica de formularios usa `react-hook-form`, un patrón que tiene
+  equivalentes directos en React Native (`react-hook-form` también funciona
+  ahí) facilitando portar las pantallas sin rediseñar la arquitectura.
+
 ## Usuarios y roles
 
 El registro (`/register` en el frontend) permite crear cuentas con rol
@@ -81,6 +121,15 @@ Pruebas unitarias del backend (lógica de cupos de paseos y alertas de stock baj
 ```bash
 cd sistema-caballeriza
 ./mvnw test
+```
+
+Pruebas de componentes del frontend (Vitest + React Testing Library: validación del
+login, contexto de autenticación/roles, y componentes de UI compartidos):
+
+```bash
+cd caballeriza-frontend
+npm test           # modo watch
+npm run test:run   # una sola corrida (CI)
 ```
 
 ## Notas para el video de demo

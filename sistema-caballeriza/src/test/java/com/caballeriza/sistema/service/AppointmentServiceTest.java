@@ -39,7 +39,7 @@ class AppointmentServiceTest {
                 .cupoActual(0)
                 .build();
         when(appointmentRepository.findById(1L)).thenReturn(Optional.of(paseo));
-        when(appointmentRepository.save(any(Appointment.class))).thenAnswer(i -> i.getArgument(0));
+        lenient().when(appointmentRepository.save(any(Appointment.class))).thenAnswer(i -> i.getArgument(0));
     }
 
     @Test
