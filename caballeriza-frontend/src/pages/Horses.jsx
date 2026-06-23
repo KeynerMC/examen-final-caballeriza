@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { Plus, Pencil, Trash2, Stethoscope, Camera, ChevronLeft, ChevronRight } from 'lucide-react'
-import { horseApi } from '../api/services'
+import { horseApi, employeeApi } from '../api/services'
 import { useAuth } from '../context/AuthContext'
 import Modal from '../components/Modal'
 import { Spinner, EmptyState, PageHeader, Badge } from '../components/UIBits'
@@ -226,7 +226,12 @@ function MedicalModal({ horse, canManage, onClose }) {
   const [records, setRecords] = useState([])
   const [loading, setLoading] = useState(true)
   const [showForm, setShowForm] = useState(false)
-  const { register, handleSubmit, reset } = useForm({ defaultValues: { tipo: 'VACUNA' } })
+  const [employees, setEmployees] = useState([])
+  const { register, handleSubmit, reset, formState: { errors } } = useForm({ defaultValues: { tipo: 'VACUNA' } })
+
+  useEffect(() => {
+    employeeApi.getAll({ page: 0, size: 100 }).then(r => setEmployees(r.data.data.content)).catch(() => {})
+  }, [])
 
   const load = async () => {
     setLoading(true)
@@ -278,7 +283,11 @@ function MedicalModal({ horse, canManage, onClose }) {
                 </div>
                 <div>
                   <label className="label">Responsable</label>
-                  <input className="input" {...register('responsable', { required: true })} />
+                  <select className="input" {...register('responsable', { required: 'Obligatorio' })}>
+                    <option value="">— Seleccionar —</option>
+                    {employees.map(e => <option key={e.id} value={e.nombre}>{e.nombre}</option>)}
+                  </select>
+                  {errors.responsable && <p className="text-red-500 text-xs mt-1">{errors.responsable.message}</p>}
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-3">
